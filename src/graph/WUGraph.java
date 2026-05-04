@@ -1,5 +1,7 @@
 /* WUGraph.java */
 
+package graph;
+
 import java.util.HashMap;
 
 /**
@@ -11,11 +13,32 @@ public class WUGraph {
   private int vertexCount;
   private int edgeCount;
   private HashMap<Object, VertexNode> vertexTable;
-  private HashMap<VertexPair, EdgeNode> EdgeNode;
-  private DList vertexList;
+  private HashMap<VertexPair, EdgeNode> edgeTable;
+  private DLinkedList vertexList;
 
-  private class Vertex {
+  private class VertexNode {
     Object obj;
+    DLinkedList adjList;
+    int degree;
+    DLinkedListNode listNode;
+
+    VertexNode(Object obj) {
+      this.obj = obj;
+      this.adjList = new DList();
+      this.degree = 0;
+    }
+  }
+  
+  private class EdgeNode {
+    Object neighbor;
+    int weight;
+    EdgeNode partner;
+    DLinkedListNode listNode;
+
+    EdgeNode(Object neighbor, int weight) {
+      this.neighbor = neighbor;
+      this.weight = weight;
+    }
   }
 
   /*
@@ -24,7 +47,11 @@ public class WUGraph {
    * Running time: O(1)
    */
   public WUGraph() {
-
+    vertexCount = 0;
+    edgeCount = 0;
+    vertexTable = new HashMap<>();
+    edgeTable = new HashMap<>();
+    vertexList = new DLinkedList();
   }
 
   /**
@@ -57,7 +84,9 @@ public class WUGraph {
    *
    * Running time: O(|V|).
    */
-  public Object[] getVertices();
+  public Object[] getVertices() {
+    
+  }
 
   /**
    * addVertex() adds a vertex (with no incident edges) to the graph.
