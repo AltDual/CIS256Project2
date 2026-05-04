@@ -28,7 +28,7 @@ public class WUGraph {
       this.degree = 0;
     }
   }
-  
+
   private class EdgeNode {
     Object neighbor;
     int weight;
@@ -85,7 +85,14 @@ public class WUGraph {
    * Running time: O(|V|).
    */
   public Object[] getVertices() {
-    
+    Object[] result = new Object[vertexCount];
+    DLinkedListNode curr = vertexList.front();
+    int i = 0;
+    while (curr != null) {
+      result[i++] = ((VertexNode) curr).obj;
+      curr = curr.next;
+    }
+    return result;
   }
 
   /**
@@ -95,7 +102,15 @@ public class WUGraph {
    *
    * Running time: O(1).
    */
-  public void addVertex(Object vertex);
+  public void addVertex(Object vertex) {
+    if (vertexTable.containsKey(vertex)) {
+      return;
+    }
+    VertexNode node = new VertexNode(vertex);
+    vertexList.insertBack(node);
+    vertexTable.put(vertex, node);
+    vertexCount++;
+  }
 
   /**
    * removeVertex() removes a vertex from the graph. All edges incident on the
@@ -104,7 +119,18 @@ public class WUGraph {
    *
    * Running time: O(d), where d is the degree of "vertex".
    */
-  public void removeVertex(Object vertex);
+  public void removeVertex(Object vertex) {
+    VertexNode node = vertexTable.get(vertex);
+    if (vNode == null) {
+      return;
+    }
+    DLinkedListNode curr = node.adjList.front();
+    while (curr != null) {
+      EdgeNode edge = (EdgeNode) curr.item;
+      
+      Vertex
+    }
+  }
 
   /**
    * isVertex() returns true if the parameter "vertex" represents a vertex of
@@ -112,7 +138,9 @@ public class WUGraph {
    *
    * Running time: O(1).
    */
-  public boolean isVertex(Object vertex);
+  public boolean isVertex(Object vertex) {
+
+  }
 
   /**
    * degree() returns the degree of a vertex. Self-edges add only one to the
@@ -121,7 +149,9 @@ public class WUGraph {
    *
    * Running time: O(1).
    */
-  public int degree(Object vertex);
+  public int degree(Object vertex) {
+
+  }
 
   /**
    * getNeighbors() returns a new Neighbors object referencing two arrays. The
@@ -141,7 +171,9 @@ public class WUGraph {
    *
    * Running time: O(d), where d is the degree of "vertex".
    */
-  public Neighbors getNeighbors(Object vertex);
+  public Neighbors getNeighbors(Object vertex) {
+
+  }
 
   /**
    * addEdge() adds an edge (u, v) to the graph. If either of the parameters
@@ -152,7 +184,9 @@ public class WUGraph {
    *
    * Running time: O(1).
    */
-  public void addEdge(Object u, Object v, int weight);
+  public void addEdge(Object u, Object v, int weight) {
+
+  }
 
   /**
    * removeEdge() removes an edge (u, v) from the graph. If either of the
@@ -162,7 +196,9 @@ public class WUGraph {
    *
    * Running time: O(1).
    */
-  public void removeEdge(Object u, Object v);
+  public void removeEdge(Object u, Object v) {
+
+  }
 
   /**
    * isEdge() returns true if (u, v) is an edge of the graph. Returns false
@@ -171,7 +207,9 @@ public class WUGraph {
    *
    * Running time: O(1).
    */
-  public boolean isEdge(Object u, Object v);
+  public boolean isEdge(Object u, Object v) {
+
+  }
 
   /**
    * weight() returns the weight of (u, v). Returns zero if (u, v) is not
@@ -187,6 +225,8 @@ public class WUGraph {
    *
    * Running time: O(1).
    */
-  public int weight(Object u, Object v);
+  public int weight(Object u, Object v) {
+
+  }
 
 }
