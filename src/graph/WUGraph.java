@@ -90,7 +90,7 @@ public class WUGraph {
     int i = 0;
     while (curr != null) {
       result[i++] = ((VertexNode) curr).obj;
-      curr = curr.next;
+      curr = vertexList.next(curr);
     }
     return result;
   }
@@ -108,6 +108,7 @@ public class WUGraph {
     }
     VertexNode node = new VertexNode(vertex);
     vertexList.insertBack(node);
+    node.listNode = vertexList.back();
     vertexTable.put(vertex, node);
     vertexCount++;
   }
@@ -127,9 +128,21 @@ public class WUGraph {
     DLinkedListNode curr = node.adjList.front();
     while (curr != null) {
       EdgeNode edge = (EdgeNode) curr.item;
-      
-      Vertex
+      VertexPair pair = new VertexPair(vertex, edge.neighbor);
+      edgeTable.remove(pair);
+      if (!vertex.equals(edge.neighbor) && edge.partner != null) {
+        VertexNode neighbor = vertexTable.get(edge.neighbor);
+        if (neighbor != null) {
+          neighbor.adjList.remove(edge.partner.listNode);
+          neighbor.degree--;
+        }
+      }
+      edgeCount--;
+      curr = node.adjList.next(curr);
     }
+    vertexTable.remove(vertex);
+    vertexList.remove(node.listNode);
+    vertexCount--;
   }
 
   /**
@@ -139,7 +152,7 @@ public class WUGraph {
    * Running time: O(1).
    */
   public boolean isVertex(Object vertex) {
-
+    return vertexTable.containsKey(vertex);
   }
 
   /**
@@ -150,7 +163,11 @@ public class WUGraph {
    * Running time: O(1).
    */
   public int degree(Object vertex) {
-
+    VertexNode node = vertexTable.get(vertex);
+    if (node == null) {
+      return 0;
+    }
+    return node.degree;
   }
 
   /**
@@ -172,7 +189,13 @@ public class WUGraph {
    * Running time: O(d), where d is the degree of "vertex".
    */
   public Neighbors getNeighbors(Object vertex) {
-
+    VertexNode node = vertexTable.get(vertex);
+    if (node == null || node.degree == 0) {
+      return null;
+    }
+    Neighbors result = new Neighbors();
+    result.neighborList = new Object[node.degree];
+    result.weight
   }
 
   /**
