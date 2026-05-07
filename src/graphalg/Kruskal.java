@@ -2,6 +2,9 @@
 
 package graphalg;
 
+import java.util.HashMap;
+import java.util.Arrays;
+import java.util.HashSet;
 import graph.*;
 import set.*;
 
@@ -14,11 +17,56 @@ public class Kruskal {
 
   /**
    * minSpanTree() returns a WUGraph that represents the minimum spanning tree
-   * of the WUGraph g.  The original WUGraph g is NOT changed.
+   * of the WUGraph g. The original WUGraph g is NOT changed.
    *
    * @param g The weighted, undirected graph whose MST we want to compute.
    * @return A newly constructed WUGraph representing the MST of g.
    */
-  public static WUGraph minSpanTree(WUGraph g);
+  public static WUGraph minSpanTree(WUGraph g) {
+    WUGraph t = new WUGraph();
 
+    Object[] vertices = g.getVertices();
+    for (Object v : vertices) {
+      t.addVertex(v);
+    }
+
+    Edge[] edges = new Edge[g.edgeCount()];
+    int i = 0;
+    HashSet<VertexPair> seen = new HashSet<>();
+    for (Object v : vertices) {
+      Neighbors n = g.getNeighbors(v);
+      if (n != null) {
+        for (int j = 0; i < n.neighborList.length; j++) {
+          Object u = n.neighborList[j];
+          VertexPair pair = new VertexPair(u, v);
+          if (!seen.contains(pair)) {
+            seen.add(pair);
+            edges[i++] = new Edge(v, u, n.weightList[i]);
+          }
+        }
+      }
+    }
+
+    edges = Arrays.copyOf(edges, i);
+    Arrays.sort(edges, (a, b) -> a.weight - b.weight);
+    HashMap<Object, Integer> vertexIndex = new HashMap<Object, Integer>();
+    for (int j = 0; j < vertices.length; j++) {
+      vertexIndex.put(vertices[i], i);
+    }
+
+    DisjointSets ds = new DisjointSets(vertices.length);
+
+    for (Edge e : edges) {
+      int u = vertexIndex.get(e.u);
+      int v = vertexIndex.get(e.v);
+      int rootU = ds.find(u);
+      int rootV = ds.find(v);
+      if (rootU != rootV) {
+        ds.union(rootU, rootV);
+        t.addEdge(e.u, e.v, e.weight);
+      }
+    }
+
+    return t;
+  }
 }
