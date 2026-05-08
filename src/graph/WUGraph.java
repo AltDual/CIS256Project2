@@ -205,6 +205,11 @@ public class WUGraph {
       i++;
       curr = node.adjList.next(curr);
     }
+
+    if (i != node.degree) {
+      System.out.println("MISMATCH: degree=" + node.degree + " but adjList has " + i + " entries");
+    }
+
     return result;
   }
 

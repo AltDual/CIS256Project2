@@ -10,11 +10,11 @@ package graph;
  * (v, u).
  */
 
-class VertexPair {
+public class VertexPair {
   protected Object object1;
   protected Object object2;
 
-  protected VertexPair(Object o1, Object o2) {
+  public VertexPair(Object o1, Object o2) {
     object1 = o1;
     object2 = o2;
   }

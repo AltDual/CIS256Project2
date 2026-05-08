@@ -2,6 +2,7 @@
 
 package graphalg;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -30,28 +31,28 @@ public class Kruskal {
       t.addVertex(v);
     }
 
-    Edge[] edges = new Edge[g.edgeCount()];
+    ArrayList<Edge> edgeList = new ArrayList<>();
     int i = 0;
     HashSet<VertexPair> seen = new HashSet<>();
     for (Object v : vertices) {
       Neighbors n = g.getNeighbors(v);
       if (n != null) {
-        for (int j = 0; i < n.neighborList.length; j++) {
+        for (int j = 0; j < n.neighborList.length; j++) {
           Object u = n.neighborList[j];
           VertexPair pair = new VertexPair(u, v);
           if (!seen.contains(pair)) {
             seen.add(pair);
-            edges[i++] = new Edge(v, u, n.weightList[i]);
+            edgeList.add(new Edge(v, u, n.weightList[j]));
           }
         }
       }
     }
 
-    edges = Arrays.copyOf(edges, i);
+    Edge[] edges = edgeList.toArray(new Edge[0]);
     Arrays.sort(edges, (a, b) -> a.weight - b.weight);
     HashMap<Object, Integer> vertexIndex = new HashMap<Object, Integer>();
     for (int j = 0; j < vertices.length; j++) {
-      vertexIndex.put(vertices[i], i);
+      vertexIndex.put(vertices[j], j);
     }
 
     DisjointSets ds = new DisjointSets(vertices.length);
